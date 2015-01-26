@@ -29,11 +29,11 @@ public class Main {
 			CyclicBarrier barrier = new CyclicBarrier(THREADS_NUM,
 					barrierAction);
 
-			CyclicBarrierRunnable barrierRunnable1 = new CyclicBarrierRunnable(
-					barrier, tester);
+			CyclicBarrierRunnable barrierRunnable = new CyclicBarrierRunnable(
+					barrier, tester, 100);
 
 			for (int i = 0; i < THREADS_NUM; i++) {
-				Thread thread = new Thread(barrierRunnable1);
+				Thread thread = new Thread(barrierRunnable);
 				thread.start();
 			}
 		} catch (FileNotFoundException e1) {
