@@ -1,4 +1,4 @@
-package bg.fmi_unisofia.fmi.corejava.NetworkStressTester;
+package bg.uni_sofia.fmi.corejava.NetworkStressTester;
 
 import java.io.Closeable;
 import java.io.FileNotFoundException;
