@@ -15,9 +15,9 @@ public class CyclicBarrierRunnable implements Runnable {
 
 	private String host;
 
-	public CyclicBarrierRunnable(CyclicBarrier barrier1, StressTester tester,
+	public CyclicBarrierRunnable(CyclicBarrier barrier, StressTester tester,
 			int numRequests, String host, int port) {
-		this.barrier = barrier1;
+		this.barrier = barrier;
 		this.tester = tester;
 		this.numRequests = numRequests;
 		this.host = host;
