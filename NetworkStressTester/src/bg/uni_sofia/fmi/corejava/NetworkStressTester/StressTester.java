@@ -18,7 +18,12 @@ public class StressTester {
 		this.query = query;
 		this.response = response;
 	}
-
+	
+	/**
+	 * 
+	 * @param host
+	 * @param port
+	 */
 	public void makeRequest(String host, int port) {
 		String log = null;
 		
@@ -69,7 +74,13 @@ public class StressTester {
 			}
 		}
 	}
-
+	
+	/**
+	 * Invokes count times makeRequest
+	 * @param host
+	 * @param port
+	 * @param count
+	 */
 	public void makeRequests(String host, int port, int count) {
 		for (int i = 0; i < count; i++) {
 			makeRequest(host, port);

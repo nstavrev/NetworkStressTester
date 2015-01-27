@@ -9,13 +9,13 @@ import java.util.concurrent.CyclicBarrier;
 
 public class Main {
 
-	private static final int THREADS_NUM = 10;
+	private static final int THREADS_NUM = 100;
 	
 	private static final String HOST = "java.voidland.org";
 	
 	private static final int PORT = 80;
 	
-	private static final int REQUESTS_PER_THREAD = 1;
+	private static final int REQUESTS_PER_THREAD = 100;
 	
 	public static void main(String[] args) {
 		
