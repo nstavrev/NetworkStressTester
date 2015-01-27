@@ -20,9 +20,10 @@ public class StressTester {
 	}
 
 	public void makeRequest(String host, int port) {
-
+		String log = null;
+		
 		long start = System.currentTimeMillis();
-
+		
 		try (Socket s = new Socket(host, port);
 				PrintWriter pw = new PrintWriter(s.getOutputStream());
 				BufferedReader in = new BufferedReader(new InputStreamReader(
@@ -30,40 +31,46 @@ public class StressTester {
 
 			pw.println(this.query);
 			pw.flush();
-
+			
 			String line;
 			StringBuilder sb = new StringBuilder();
 
 			while ((line = in.readLine()) != null) {
 				sb.append(line);
 			}
-
+			
 			try (Logger logger = new Logger(Paths.get("src/result.txt"))) {
 				if (sb.toString().startsWith(response)) {
-					logger.log("Thread " + Thread.currentThread().getName()
+					log = "Thread " + Thread.currentThread().getName()
 							+ " got success response " + response + " for "
-							+ (System.currentTimeMillis() - start) + " milis \n");
+							+ (System.currentTimeMillis() - start) + " milis \n";
+					System.out.println(log);
+					logger.log(log);
 				} else {
-					logger.log("Thread " + Thread.currentThread().getName()
+					log = "Thread " + Thread.currentThread().getName()
 							+ " got incorrect result for "
 							+ (System.currentTimeMillis() - start)
-							+ sb.toString() + " milis \n");
+							+ sb.toString() + " milis \n";
+					System.err.println(log);
+					logger.log(log);
 				}
 			}
 
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
+			log = "Thread " + Thread.currentThread().getName()
+					+ " got exception " + e.getMessage() + "\n";
 			try (Logger logger = new Logger(Paths.get("src/result.txt"))) {
-				logger.log("Thread " + Thread.currentThread().getName()
-						+ " got exception " + e.getMessage() + "\n");
+				System.err.println(log);
+				logger.log(log);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
 		}
 	}
 
-	public void makeRequest(String host, int port, int count) {
+	public void makeRequests(String host, int port, int count) {
 		for (int i = 0; i < count; i++) {
 			makeRequest(host, port);
 		}

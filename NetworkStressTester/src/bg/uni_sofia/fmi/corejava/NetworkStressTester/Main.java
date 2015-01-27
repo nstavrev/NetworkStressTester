@@ -10,17 +10,25 @@ import java.util.concurrent.CyclicBarrier;
 public class Main {
 
 	private static final int THREADS_NUM = 10;
-
+	
+	private static final String HOST = "java.voidland.org";
+	
+	private static final int PORT = 80;
+	
+	private static final int REQUESTS_PER_THREAD = 1;
+	
 	public static void main(String[] args) {
-
+		
+		
 		try (BufferedReader requestReader = new BufferedReader(new FileReader(
 				new File("src/request.txt")));
 				BufferedReader responseReader = new BufferedReader(
 						new FileReader(new File("src/response.txt")))) {
 			
 			String query = requestReader.readLine();
+			
 			String expectedResponse = responseReader.readLine();
-
+			
 			StressTester tester = new StressTester(query, expectedResponse);
 
 			Runnable barrierAction = () -> System.out
@@ -30,7 +38,7 @@ public class Main {
 					barrierAction);
 
 			CyclicBarrierRunnable barrierRunnable = new CyclicBarrierRunnable(
-					barrier, tester, 100);
+					barrier, tester, REQUESTS_PER_THREAD, HOST, PORT);
 
 			for (int i = 0; i < THREADS_NUM; i++) {
 				Thread thread = new Thread(barrierRunnable);

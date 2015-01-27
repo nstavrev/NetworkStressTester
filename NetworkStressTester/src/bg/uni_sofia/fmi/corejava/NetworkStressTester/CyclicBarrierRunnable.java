@@ -5,24 +5,30 @@ import java.util.concurrent.CyclicBarrier;
 
 public class CyclicBarrierRunnable implements Runnable {
 
-	private CyclicBarrier barrier = null;
+	private CyclicBarrier barrier;
 
 	private StressTester tester;
 
 	private int numRequests;
 
+	private int port;
+
+	private String host;
+
 	public CyclicBarrierRunnable(CyclicBarrier barrier1, StressTester tester,
-			int numRequests) {
+			int numRequests, String host, int port) {
 		this.barrier = barrier1;
 		this.tester = tester;
 		this.numRequests = numRequests;
+		this.host = host;
+		this.port = port;
 	}
 
 	@Override
 	public void run() {
 		try {
 			this.barrier.await();
-			tester.makeRequest("java.voidland.org", 80, this.numRequests);
+			tester.makeRequests(this.host, this.port, this.numRequests);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (BrokenBarrierException e) {
