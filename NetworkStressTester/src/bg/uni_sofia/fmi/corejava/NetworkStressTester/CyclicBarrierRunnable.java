@@ -1,5 +1,7 @@
 package bg.uni_sofia.fmi.corejava.NetworkStressTester;
 
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
@@ -11,35 +13,30 @@ public class CyclicBarrierRunnable implements Runnable {
 
 	private int numRequests;
 
-	private int port;
-
-	private String host;
-	
 	/**
 	 * 
 	 * @param barrier
 	 * @param tester
 	 * @param numRequests - The number of requests that each thread will make
-	 * @param host
-	 * @param port
 	 */
-	public CyclicBarrierRunnable(CyclicBarrier barrier, StressTester tester,
-			int numRequests, String host, int port) {
+	public CyclicBarrierRunnable(CyclicBarrier barrier, StressTester tester, int numRequests) {
 		this.barrier = barrier;
 		this.tester = tester;
 		this.numRequests = numRequests;
-		this.host = host;
-		this.port = port;
 	}
 
 	@Override
 	public void run() {
 		try {
 			this.barrier.await();
-			tester.makeRequests(this.host, this.port, this.numRequests);
+			tester.makeRequests(this.numRequests);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			e.printStackTrace(); 
 		} catch (BrokenBarrierException e) {
+			e.printStackTrace();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
